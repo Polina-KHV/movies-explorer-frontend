@@ -1,0 +1,30 @@
+.portfolio__item {
+  display: flex;
+  position: relative;
+  justify-content: space-between;
+  align-items: center;
+  min-height: 90px;
+  font-size: 30px;
+  font-weight: 400;
+  color: #fff;
+}
+
+@media screen and (max-width: 990px) {
+  .portfolio__item {
+    font-size: 28px;
+  }
+}
+
+@media screen and (max-width: 760px) {
+  .portfolio__item {
+    min-height: 80px;
+    font-size: 24px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .portfolio__item {
+    min-height: 65px;
+    font-size: 18px;
+  }
+}

@@ -1,0 +1,6 @@
+.header__link_type_account {
+  display: flex;
+  column-gap: 15px;
+  align-items: center;
+  margin-left: 30px;
+}

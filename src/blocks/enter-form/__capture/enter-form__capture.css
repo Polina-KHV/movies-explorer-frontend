@@ -1,0 +1,13 @@
+.enter-form__capture {
+  text-align: center;
+  font-size: 14px;
+  font-weight: 400;
+  color: #8B8B8B;
+  margin: 0;
+}
+
+@media screen and (max-width: 480px) {
+  .enter-form__capture {
+    font-size: 12px;
+  }
+}

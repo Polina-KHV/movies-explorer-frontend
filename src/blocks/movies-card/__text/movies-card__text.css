@@ -1,0 +1,29 @@
+.movies-card__text {
+  font-size: 11px;
+  font-weight: 400;
+  color: #8B8B8B;
+}
+
+@media screen and (max-width: 1280px) {
+  .movies-card__text {
+    font-size: 12px;
+  }
+}
+
+@media screen and (max-width: 990px) {
+  .movies-card__text {
+    font-size: 11px;
+  }
+}
+
+@media screen and (max-width: 760px) {
+  .movies-card__text {
+    font-size: 12px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .movies-card__text {
+    font-size: 10px;
+  }
+}

@@ -1,0 +1,13 @@
+.form__submit-button {
+  width: 100%;
+  height: 45px;
+  font-size: 14px;
+  color: #fff;
+  background-color: #4285F4;
+}
+
+@media screen and (max-width: 480px) {
+  .form__submit-button {
+    font-size: 12px;
+  }
+}

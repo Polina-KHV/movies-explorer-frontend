@@ -1,0 +1,9 @@
+@import url(../../blocks/techs/techs.css);
+@import url(../../blocks/content-container/content-container.css);
+@import url(../../blocks/title/_type/title_type_main-page-sections.css);
+@import url(../../blocks/techs/__info/techs__info.css);
+@import url(../../blocks/title/_type/title_type_main.css);
+@import url(../../blocks/text/_type/text_type_main.css);
+@import url(../../blocks/techs/__scheme/techs__scheme.css);
+@import url(../../blocks/list/list.css);
+@import url(../../blocks/techs/__scheme-cell/techs__scheme-cell.css);

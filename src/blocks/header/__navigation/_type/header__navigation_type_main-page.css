@@ -1,0 +1,15 @@
+.header__navigation_type_main-page {
+  
+}
+
+@media screen and (max-width: 990px) {
+  .header__navigation_type_main-page {
+    font-size: 12px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .header__navigation_type_main-page {
+    column-gap: 15px;
+  }
+}

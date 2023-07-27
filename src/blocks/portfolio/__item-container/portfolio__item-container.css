@@ -1,0 +1,7 @@
+.portfolio__item-container {
+  border-bottom: 1px solid #424242;
+}
+
+.portfolio__item-container:last-of-type {
+  border-bottom: none;
+}

@@ -1,0 +1,10 @@
+.movies-card__trash-button {
+  display: none;
+  width: 8px;
+  height: 8px;
+  background-image: url(../../../images/trash-icon.svg);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-color: transparent;
+}

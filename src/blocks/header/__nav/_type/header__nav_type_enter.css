@@ -1,0 +1,18 @@
+.header__nav_type_enter {
+  display: flex;
+  align-items: baseline;
+  column-gap: 30px;
+  font-size: 14px;
+}
+
+@media screen and (max-width: 990px) {
+  .header__nav_type_enter {
+    font-size: 12px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .header__nav_type_enter {
+    column-gap: 15px;
+  }
+}

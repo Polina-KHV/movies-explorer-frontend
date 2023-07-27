@@ -1,0 +1,7 @@
+.promo__logo {
+  background-image: url(../../../images/landing-logo.svg);
+  width: 310px;
+  height: 310px;
+  background-repeat: no-repeat;
+  background-size: contain;
+}

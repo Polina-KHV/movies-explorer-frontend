@@ -1,0 +1,9 @@
+.account-icon {
+  width: 30px;
+  height: 30px;
+  background-color: #313131;
+  border-radius: 6px;
+  background-image: url('../../images/account-icon.svg');
+  background-position: center;
+  background-repeat: no-repeat;
+}

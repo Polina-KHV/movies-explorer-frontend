@@ -1,0 +1,12 @@
+.about-project__scheme {
+  display: grid;
+  grid-template-columns: 1fr 4fr;
+  grid-template-rows: repeat(2, 35px);
+  font-size: 14px;
+}
+
+@media screen and (max-width: 760px) {
+  .about-project__scheme {
+    font-size: 12px;
+  }
+}

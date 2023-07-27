@@ -1,0 +1,11 @@
+.button_type_common {
+  border: none;
+  padding: 0;
+  box-sizing: border-box;
+  cursor: pointer;
+  transition: opacity .2s linear;
+}
+
+.button_type_common:hover {
+  opacity: .8;
+}

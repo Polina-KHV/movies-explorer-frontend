@@ -1,0 +1,9 @@
+.movies-card__like-button {
+  width: 14px;
+  height: 12px;
+  background-image: url(../../../images/like-icon__inactive.svg);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-color: transparent;
+}

@@ -1,0 +1,16 @@
+.side-nav__mask {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background-color: #000;
+  opacity: 30%;
+  z-index: 1;
+}
+
+@media screen and (max-width: 760px) {
+  .side-nav__mask {
+    display: none;
+  }
+}

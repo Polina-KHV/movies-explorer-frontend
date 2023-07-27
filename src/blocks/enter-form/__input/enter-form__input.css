@@ -1,0 +1,17 @@
+.enter-form__input {
+  height: 30px;
+  font-size: 14px;
+  font-weight: 400;
+  color: #fff;
+  box-sizing: border-box;
+  padding: 0;
+  border: none;
+  border-bottom: 1px solid #424242;
+  background-color: transparent;
+}
+
+.enter-form__input:focus {
+  font-weight: 500;
+  outline: none;
+  border-bottom-color: #4285F4;
+}

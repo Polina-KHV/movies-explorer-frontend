@@ -1,0 +1,16 @@
+.not-found__title {
+  font-size: 140px;
+  font-weight: 400;
+}
+
+@media screen and (max-width: 760px) {
+  .not-found__title {
+    font-size: 100px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .not-found__title {
+    font-size: 80px;
+  }
+}

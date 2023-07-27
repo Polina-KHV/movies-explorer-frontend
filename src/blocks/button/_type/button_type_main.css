@@ -1,0 +1,13 @@
+.button_type_main {
+  border: none;
+  padding: 0;
+  box-sizing: border-box;
+  border-radius: 3px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: opacity .2s linear;
+}
+
+.button_type_main:hover {
+  opacity: .8;
+}
