@@ -21,12 +21,5 @@
   .about-me__info {
     max-width: 100%;
     row-gap: 30px;
-    text-align: center;
-  }
-}
-
-@media screen and (max-width: 480px) {
-  .about-me__info {
-    text-align: start;
   }
 }
