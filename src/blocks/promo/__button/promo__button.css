@@ -1,0 +1,15 @@
+.promo__button {
+  border: 1px solid rgba(255, 255, 255, .6);
+  background-color: transparent;
+  width: 130px;
+  height: 35px;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+@media screen and (max-width: 990px) {
+  .promo__button {
+    font-size: 12px;
+  }
+}

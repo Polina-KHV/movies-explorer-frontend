@@ -1,0 +1,8 @@
+.about-project__scheme-second-cell {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 400;
+  color:#fff;
+  background-color: #303030;
+}

@@ -1,0 +1,15 @@
+.search-form {
+  position: relative;
+  display: flex;
+  justify-content: stretch;
+  align-items: center;
+  height: 70px;
+  background-color: #2F2F2F;
+  border-radius: 9px;
+}
+
+@media screen and (max-width: 760px) {
+  .search-form {
+    padding-left: 20px;
+  }
+}

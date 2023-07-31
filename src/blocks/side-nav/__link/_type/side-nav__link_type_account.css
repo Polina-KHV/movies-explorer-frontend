@@ -1,0 +1,8 @@
+.side-nav__link_type_account {
+  display: flex;
+  column-gap: 15px;
+  align-items: center;
+  font-size: 14px;
+  font-weight: 500;
+  color: #fff;
+}

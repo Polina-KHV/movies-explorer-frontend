@@ -1,0 +1,14 @@
+.profile-form__capture {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  row-gap: 15px;
+  font-size: 13px;
+  font-weight: 400;
+}
+
+@media screen and (max-width: 480px) {
+  .profile-form__capture {
+    font-size: 12px;
+  }
+}

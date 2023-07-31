@@ -1,0 +1,22 @@
+.not-found__link {
+  position: absolute;
+  bottom: 60px;
+  left: 50%;
+  transform: translate(-50%, 0);
+  font-size: 14px;
+  font-weight: 400;
+  color: #4285F4;
+}
+
+@media screen and (max-width: 760px) {
+  .not-found__link {
+    bottom: 40px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .not-found__link {
+    bottom: 30px;
+    font-size: 12px;
+  }
+}

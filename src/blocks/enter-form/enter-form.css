@@ -1,0 +1,9 @@
+.enter-form {
+  min-height: 550px;
+}
+
+@media screen and (max-width: 480px) {
+  .enter-form {
+    min-height: auto;
+  }
+}

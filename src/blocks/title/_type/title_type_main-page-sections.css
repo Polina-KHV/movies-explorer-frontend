@@ -1,0 +1,15 @@
+.title_type_main-page-sections {
+  font-size: 22px;
+  font-weight: 400;
+  color: #fff;
+  margin: 0;
+  padding: 0 0 25px;
+  border-bottom: 1px solid #dadada;
+}
+
+@media screen and (max-width: 480px) {
+  .title_type_main-page-sections {
+    font-size: 18px;
+    padding-bottom: 20px;
+  }
+}

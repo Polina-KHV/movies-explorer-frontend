@@ -1,0 +1,29 @@
+.content-container {
+  box-sizing: border-box;
+  width: 1140px;
+  margin: 0 auto;
+}
+
+@media screen and (max-width: 1280px) {
+  .content-container {
+    width: 880px;
+  }
+}
+
+@media screen and (max-width: 990px) {
+  .content-container {
+    width: 660px;
+  }
+}
+
+@media screen and (max-width: 760px) {
+  .content-container {
+    width: 440px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .content-container {
+    width: 290px;
+  }
+}

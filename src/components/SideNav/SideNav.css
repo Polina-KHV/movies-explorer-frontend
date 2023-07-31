@@ -1,0 +1,8 @@
+@import url(../../blocks/side-nav/__mask/side-nav__mask.css);
+@import url(../../blocks/side-nav/__bar/side-nav__bar.css);
+@import url(../../blocks/side-nav/__close-button/side-nav__close-button.css);
+@import url(../../blocks/button/_type/button_type_common.css);
+@import url(../../blocks/side-nav/__content/side-nav__content.css);
+@import url(../../blocks/side-nav/__link/side-nav__link.css);
+@import url(../../blocks/side-nav/__link/_active/side-nav__link_active.css);
+@import url(../../blocks/side-nav/__link/_type/side-nav__link_type_account.css);

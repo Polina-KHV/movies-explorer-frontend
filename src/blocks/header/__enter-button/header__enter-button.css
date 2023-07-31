@@ -1,0 +1,12 @@
+.header__enter-button {
+  width: 75px;
+  height: 30px;
+  background-color: #3DDC84;
+}
+
+@media screen and (max-width: 760px) {
+  .header__enter-button {
+    width: 60px;
+    height: 25px;
+  }
+}

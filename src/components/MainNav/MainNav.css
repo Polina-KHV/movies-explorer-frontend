@@ -1,0 +1,6 @@
+@import url(../../blocks/header/__nav/_type/header__nav_type_main.css);
+@import url(../../blocks/header/__link/header__link.css);
+@import url(../../blocks/header/__link/_type/header__link_type_account.css);
+@import url(../../blocks/account-icon/account-icon.css);
+@import url(../../blocks/header/__navbar-button/header__navbar-button.css);
+@import url(../../blocks/button/_type/button_type_common.css);

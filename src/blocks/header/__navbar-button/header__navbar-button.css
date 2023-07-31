@@ -1,0 +1,24 @@
+.header__navbar-button {
+  display: none;
+}
+
+@media screen and (max-width: 990px) {
+  .header__navbar-button {
+    display: block;
+    width: 28px;
+    height: 28px;
+    background-color: transparent;
+    background-image: url(../../../images/burger-menu-icon.svg);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .header__navbar-button {
+    width: 22px;
+    height: 22px;
+  }
+}
+

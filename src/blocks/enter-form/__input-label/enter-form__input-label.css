@@ -1,0 +1,12 @@
+.enter-form__input-label {
+  display: flex;
+  flex-direction: column;
+  font-size: 10px;
+  font-weight: 400;
+  color: #8B8B8B;
+  margin-bottom: 25px;
+}
+
+.enter-form__input-label:last-of-type {
+  margin-bottom: 0;
+}

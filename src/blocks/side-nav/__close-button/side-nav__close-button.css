@@ -1,0 +1,19 @@
+.side-nav__close-button {
+  position: fixed;
+  top: 30px;
+  right: 30px;
+  width: 18px;
+  height: 18px;
+  background-image: url('../../../images/close-icon.svg');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-color: transparent;
+}
+
+@media screen and (max-width: 760px) {
+  .side-nav__close-button {
+    top: 20px;
+    right: 20px;
+  }
+}

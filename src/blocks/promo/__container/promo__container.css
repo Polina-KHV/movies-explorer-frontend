@@ -1,0 +1,20 @@
+.promo__container {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: space-between;
+  margin: 0 auto;
+}
+
+@media screen and (max-width: 990px) {
+  .promo__container {
+    flex-direction: column;
+    row-gap: 50px;
+    align-items: center;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .promo__container {
+    row-gap: 45px;
+  }
+}

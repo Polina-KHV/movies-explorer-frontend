@@ -1,0 +1,7 @@
+@media screen and (max-width: 480px) {
+  .form__bottom {
+    position: absolute;
+    bottom: 30px;
+    width: 260px;
+  }
+}

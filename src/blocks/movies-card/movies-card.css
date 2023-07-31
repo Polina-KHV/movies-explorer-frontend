@@ -1,0 +1,15 @@
+.movies-card {
+  display: flex;
+  flex-direction: column;
+  border-radius: 6px;
+  background-color: #222;
+  transition: .3s;
+}
+
+.movies-card:hover {
+  box-shadow: 0 0 15px rgba(0, 0, 0, .4);
+}
+
+.movies-card:hover .movies-card__trash-button {
+  display: block
+}

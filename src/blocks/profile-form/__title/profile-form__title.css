@@ -1,0 +1,9 @@
+.profile-form__title {
+  margin: 0 0 120px;
+}
+
+@media screen and (max-width: 480px) {
+  .profile-form__title {
+    margin-bottom: 80px;
+  }
+}

@@ -1,0 +1,7 @@
+.profile-form__link {
+  color: #fff;
+}
+
+.profile-form__link:last-child {
+  color: #EE3465;
+}

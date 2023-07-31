@@ -1,0 +1,21 @@
+.promo__subtitle {
+  font-size: 14px;
+  font-weight: 400;
+  color: #fff;
+  opacity: .5;
+  margin: 35px 0 145px;
+  max-width: 310px;
+}
+
+@media screen and (max-width: 990px) {
+  .promo__subtitle {
+    font-size: 12px;
+    margin: 20px 0 90px;
+  }
+}
+
+@media screen and (max-width: 760px) {
+  .promo__subtitle {
+    margin: 25px 0 70px;
+  }
+}

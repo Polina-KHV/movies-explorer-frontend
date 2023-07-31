@@ -1,0 +1,28 @@
+.techs__scheme-cell {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 14px;
+  font-weight: 400;
+  color: #fff;
+  background-color: #303030;
+  border-radius: 10px;
+}
+
+@media screen and (max-width: 990px) {
+  .techs__scheme-cell {
+    font-size: 12px;
+  }
+}
+
+@media screen and (max-width: 760px) {
+  .techs__scheme-cell:last-of-type {
+    grid-column-start: 2;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .techs__scheme-cell:last-of-type {
+    grid-column-start: 1;
+  }
+}

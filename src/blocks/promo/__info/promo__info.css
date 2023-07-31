@@ -1,0 +1,19 @@
+.promo__info {
+  display: flex;
+  flex-direction: column;
+  max-width: 650px;
+}
+
+@media screen and (max-width: 1280px) {
+  .promo__info {
+    max-width: 550px;
+  }
+}
+
+@media screen and (max-width: 990px) {
+  .promo__info {
+    max-width: 100%;
+    align-items: center;
+    text-align: center;
+  }
+}

@@ -1,0 +1,13 @@
+.movies-card__info {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 15px 25px 15px 15px;
+}
+
+@media screen and (max-width: 480px) {
+  .movies-card__info {
+    padding-right: 20px;
+  }
+}
