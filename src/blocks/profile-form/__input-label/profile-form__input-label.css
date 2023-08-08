@@ -12,7 +12,5 @@
 }
 
 .profile-form__input-label:last-of-type {
-  height: auto;
-  margin-bottom: 0;
   border-bottom: none;
 }

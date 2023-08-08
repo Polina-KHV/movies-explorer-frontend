@@ -1,0 +1,14 @@
+.submit-error {
+  display: block;
+  text-align: center;
+  margin-bottom: 10px;
+  font-size: 12px;
+  font-weight: 400;
+  color: #EE3465;
+}
+
+@media screen and (max-width: 480px) {
+  .submit-error {
+    font-size: 10px;
+  }
+}

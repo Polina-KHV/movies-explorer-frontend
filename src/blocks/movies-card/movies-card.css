@@ -1,13 +1,17 @@
 .movies-card {
+  position: relative;
   display: flex;
   flex-direction: column;
   border-radius: 6px;
   background-color: #222;
-  transition: .3s;
+  text-decoration: none;
+  cursor: pointer;
+  transition: box-shadow .3s linear;
+  z-index: 1;
 }
 
 .movies-card:hover {
-  box-shadow: 0 0 15px rgba(0, 0, 0, .4);
+  box-shadow: 0 0 15px rgba(0, 0, 0, .5);
 }
 
 .movies-card:hover .movies-card__trash-button {

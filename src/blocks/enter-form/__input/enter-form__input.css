@@ -15,3 +15,12 @@
   outline: none;
   border-bottom-color: #4285F4;
 }
+
+.enter-form__input:-webkit-autofill,
+.enter-form__input:-webkit-autofill:hover, 
+.enter-form__input:-webkit-autofill:focus {
+    -webkit-text-fill-color: #fff;
+    -webkit-box-shadow: none;
+    transition: background-color 5000s ease-in-out 0s;
+}
+

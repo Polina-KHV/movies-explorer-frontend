@@ -1,0 +1,11 @@
+.search-form__input-error {
+  position: absolute;
+  bottom: -20px;
+  left: 62px;
+}
+
+@media screen and (max-width: 760px) {
+  .search-form__input-error {
+    left: 20px;
+  }
+}

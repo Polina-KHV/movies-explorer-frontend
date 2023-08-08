@@ -9,3 +9,5 @@
 @import url(../../blocks/search-form/__filter/search-form__filter.css);
 @import url(../../blocks/search-form/__checkbox/search-form__checkbox.css);
 @import url(../../blocks/search-form/__slider/search-form__slider.css);
+@import url(../../blocks/search-form/__input-error/search-form__input-error.css);
+@import url(../../blocks/input-error/input-error.css);

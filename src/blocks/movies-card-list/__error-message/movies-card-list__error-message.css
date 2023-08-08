@@ -1,0 +1,19 @@
+.movies-card-list__error-message {
+  font-size: 14px;
+  font-weight: 400;
+  color: #8B8B8B;
+  text-align: center;
+  margin: 0;
+}
+
+@media screen and (max-width: 990px) {
+  .movies-card-list__error-message {
+    font-size: 13px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .movies-card-list__error-message {
+    font-size: 12px;
+  }
+}

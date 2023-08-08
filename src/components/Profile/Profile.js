@@ -3,7 +3,15 @@ import MainNav from '../MainNav/MainNav.js';
 import ProfileForm from '../ProfileForm/ProfileForm.js';
 import SideNav from '../SideNav/SideNav.js';
 
-function Profile({onOpenSideNav, isSideNavOpen, onCloseSideNav}) {
+function Profile({
+  onOpenSideNav,
+  isSideNavOpen,
+  onCloseSideNav,
+  onUpdateUser,
+  onSignout,
+  submitError,
+  onSubmitError
+}) {
   return (
     <>
       <Header>
@@ -12,10 +20,10 @@ function Profile({onOpenSideNav, isSideNavOpen, onCloseSideNav}) {
         />
       </Header>
       <ProfileForm
-        buttonText='Войти'
-        captureText='Ещё не&nbsp;зарегистрированы?'
-        navLink='/signup'
-        linkText='Регистрация'
+        onFormSubmit={onUpdateUser}
+        onSignout={onSignout}
+        submitError={submitError}
+        onSubmitError={onSubmitError}
       />
       <SideNav
       isOpen={isSideNavOpen}
