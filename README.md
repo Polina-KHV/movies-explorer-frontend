@@ -9,7 +9,7 @@ The code is developed with Create React App.
 
 ## Project links
 
-Domain link https://api.daechwita.nomoredomains.rocks
+Domain link https://daechwita.nomoredomains.rocks
 
 Pull request https://github.com/Polina-KHV/movies-explorer-frontend/pull/2
 
