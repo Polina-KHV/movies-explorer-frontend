@@ -413,7 +413,7 @@ function App() {
               element={SavedMoviesPage}
               loggedIn={loggedIn}
           />}/>
-          <Route path='/'element={
+          <Route path='/profile'element={
             <ProtectedRoute
               element={ProfilePage}
               loggedIn={loggedIn}
