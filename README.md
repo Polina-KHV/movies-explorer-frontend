@@ -9,8 +9,12 @@ The code is developed with Create React App.
 
 ## Project links
 
-Repository https://github.com/Polina-KHV/movies-explorer-frontend
+Domain link https://api.daechwita.nomoredomains.rocks
+
+Pull request https://github.com/Polina-KHV/movies-explorer-frontend/pull/2
 
 Figma layout https://disk.yandex.ru/d/HIv_bS45lDINkQ
 
-Backend https://github.com/Polina-KHV/movies-explorer-api
+Frontend repository https://github.com/Polina-KHV/movies-explorer-frontend
+
+Backend repository https://github.com/Polina-KHV/movies-explorer-api
