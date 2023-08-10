@@ -109,7 +109,12 @@ function EnterForm({
             className='enter-form__submit-button form__submit-button button_type_main'
             disabled={!isValid}
           >{buttonText}</button>
-          <p className='enter-form__capture'>{captureText}&nbsp;<NavLink to={`${navLink}`} className='enter-form__link link'>{linkText}</NavLink>
+          <p className='enter-form__capture'>{captureText}&nbsp;
+          <NavLink
+          to={`${navLink}`}
+          className='enter-form__link link'>
+            {linkText}
+          </NavLink>
           </p>
         </div>
       </form>

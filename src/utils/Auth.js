@@ -18,7 +18,7 @@ function makeRequest(url, method, body) {
 
   return fetch(`${BASE_URL + url}`, config)
   .then(((res) => {
-    return res.ok ? res : Promise.reject(res)
+    return res.ok ? res.json() : Promise.reject(res)
   }))
 };
 
@@ -32,4 +32,8 @@ export function authorize(email, password) {
 
 export function getContent() {
   return makeRequest('/users/me', 'GET')
+};
+
+export function logout() {
+  return makeRequest('/signout', 'POST')
 };

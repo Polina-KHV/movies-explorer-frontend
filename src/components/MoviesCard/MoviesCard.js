@@ -6,22 +6,27 @@ function MoviesCard({
   image,
   link,
   duration,
-  owner,
   onSavedMoviesPage,
   onDeleteButtonClick,
   onLikeButtonClick
 }) {
+  const isLiked = movie.owner !== undefined ? true : false;
+
+  const movieLikeButtonClassName = ( 
+    `${isLiked && 'movies-card__like-button_active'} movies-card__like-button button_type_common` 
+  );
+
   function toHoursAndMinutes(time) {
     const hours = Math.floor(time / 60);
     const minutes = time % 60;
     return hours === 0 ? `${minutes}м` : `${hours}ч ${minutes}м`
-  }
+  };
 
   function handleButtonClick(evt) {
     if(evt.target.classList.contains('button_type_common')) {
       evt.preventDefault();
     }
-  }
+  };
 
   return(
     <li>
@@ -52,7 +57,7 @@ function MoviesCard({
           ></button>
           :
           <button
-          className={`${owner ? 'movies-card__like-button_active' : ''} movies-card__like-button button_type_common`}
+          className={movieLikeButtonClassName}
           type='button'
           onClick={
             function() {onLikeButtonClick(movie)}

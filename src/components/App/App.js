@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import {Routes, Route, useNavigate } from 'react-router-dom';
 import { UserContext } from '../../contexts/UserContext';
 import './App.css';
-import { register, authorize, getContent } from '../../utils/Auth';
+import { register, authorize, getContent, logout } from '../../utils/Auth';
 import { mainApi } from '../../utils/MainApi';
 import { moviesApi } from '../../utils/MoviesApi.js';
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
@@ -33,6 +33,7 @@ function App() {
   const [movieApiError, setMovieApiError] = useState(false);
   const [submitError, setSubmitError] = useState('');
   const [onSubmitError, setOnSubmitError] = useState(false);
+  const [onSuccessfulUpdate, setOnSuccessfulUpdate] = useState(false);
 
   function tokenCheck() {
     setLoading(true);
@@ -62,12 +63,22 @@ function App() {
       });
     }
   }, [loggedIn]);
+  
+  useEffect(() => {
+    if(submitError) {
+      setSubmitError('');
+    }
+    if(onSuccessfulUpdate) {
+      setOnSuccessfulUpdate(false);
+    }
+    // eslint-disable-next-line
+  }, [navigate]);
 
   function handleRegistration({name, email, password}) {
     register(name, email, password)
     .then(() => {
-      navigate("/signin", {replace: true});
-      setSubmitError('');
+      const userData = {email, password};
+      handleAuthorization(userData);
     })
     .catch((err) => {
       console.log(`Ошибка: ${err.status}`);
@@ -83,7 +94,7 @@ function App() {
     })
   };
 
-  function handleAuthorization({email, password}) {  
+  function handleAuthorization({email, password}) {
     if (!email || !password){
       return;
     }
@@ -109,11 +120,15 @@ function App() {
   };
   
   function handleUpdateUser(user) {
+    if(user.name === currentUser.name && user.email === currentUser.email) {
+      
+    }
     mainApi.setUserInfo(user)
     .then((user) => {
-      setCurrentUser(user);
+      setOnSuccessfulUpdate(true);
       setOnSubmitError(false);
       setSubmitError('');
+      setCurrentUser(user);
     })
     .catch((err) => {
       console.log(`Ошибка: ${err.status}`);
@@ -131,22 +146,23 @@ function App() {
   };
 
   function handleExit() {
-    localStorage.removeItem('authorised');
-    localStorage.removeItem('searchData');
-    setMovies([]);
-    setLoggedIn(false);
-    navigate("/", {replace: true})
+    logout()
+    .then(() => {
+      localStorage.removeItem('authorised');
+      localStorage.removeItem('searchData');
+      setMovies([]);
+      setLoggedIn(false);
+      navigate("/", {replace: true})
+    })
+    .catch((err) => {
+      console.log(`Ошибка: ${err.status}`);
+    });
   };
 
   useEffect(() => {
     setMoviesLoading(true);
     if (loggedIn){
       mainApi.getMovies()
-      .then((movies) => {
-        return movies.filter((movie) => 
-          movie.owner._id === currentUser._id
-        )
-      })
       .then((movies) => {
         movies.length === 0 ?
         setIsNoSavedMovies(true) :
@@ -167,7 +183,7 @@ function App() {
             owner: movie.owner,
             _id: movie._id            
           }))
-        )
+        );
       })
       .catch((err) => {
         console.log(err);
@@ -281,18 +297,17 @@ function App() {
   };
 
   function handleLikeButtonClick(movie) {
-    movie.saved ? deleteMovie(movie) : saveMovie(movie) 
+    movie.owner !== undefined ? deleteMovie(movie) : saveMovie(movie) 
   };
 
   function saveMovie(movie) {
     mainApi.addMovie(movie)
     .then((savedMovie) => {
-      movie.owner = savedMovie.owner_id;
-      movie._id = savedMovie._id;
-      setSavedMovies([savedMovie, ...savedMovies])
+      console.log(savedMovie);
+      setSavedMovies.push([savedMovie, ...savedMovies])
       setMovies((state) =>
-        state.map((i) =>
-          i.movieId === movie.movieId ? savedMovie : i
+        state.map((i) => 
+          i.movieId === savedMovie.movieId ? savedMovie : i
       ))
     })
     .catch((err) => {
@@ -303,15 +318,16 @@ function App() {
   function deleteMovie(movie) {
     mainApi.removeMovie(movie._id)
     .then((removedMovie) => {
-      delete movie.owner;
-      delete movie._id
+      console.log(removedMovie);
+      delete removedMovie.owner;
+      delete removedMovie._id;
       setSavedMovies((state) =>
         state.filter((i) =>
           i._id !== removedMovie._id
       ));
       setMovies((state) =>
         state.map((i) =>
-          i.movieId === movie.movieId ? removedMovie : i
+          i.movieId === removedMovie.movieId ? removedMovie : i
       ))
     })
     .catch((err) => {
@@ -374,6 +390,7 @@ function App() {
         onSignout={handleExit}
         submitError={submitError}
         onSubmitError={onSubmitError}
+        onSuccessfulUpdate={onSuccessfulUpdate}
       />
     )
   };

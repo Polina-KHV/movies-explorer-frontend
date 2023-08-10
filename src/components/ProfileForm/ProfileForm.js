@@ -8,7 +8,8 @@ function ProfileForm({
   onFormSubmit,
   onSignout,
   submitError,
-  onSubmitError
+  onSubmitError,
+  onSuccessfulUpdate
 }) {
   const currentUser = useContext(UserContext);
   const [onEdit, setOnEdit] = useState(false);
@@ -47,6 +48,14 @@ function ProfileForm({
     setErrors({...errors, [name]: validationMessage});
     setIsValid(evt.target.closest('form').checkValidity());
   };
+
+  useEffect(() => {
+    if(values.name===userData.name && values.email===userData.email) {
+      setIsValid(false);
+    };
+    // eslint-disable-next-line
+  }, [handleFormChange]);
+  
 
   const resetForm = useCallback(
     (newValues = {}, newErrors = {}, newIsValid = false) => {
@@ -115,6 +124,12 @@ function ProfileForm({
             className='profile-form__capture'
             style={{display: onEdit ? 'none' : 'flex'}}
           >
+            <span
+            className='submit-success'
+            style={{display: onSuccessfulUpdate && !onEdit ? 'block' : 'none'}}
+            >
+            Данные профиля успешно обновлены
+            </span>
             <span className='profile-form__link link' onClick={handleFormActivation}>Редактировать</span>
             <NavLink
               to='/'
@@ -131,7 +146,7 @@ function ProfileForm({
               type='submit'
               className='profile-form__submit-button form__submit-button button_type_main'
               disabled={!isValid}
-              >Сохранить</button>
+            >Сохранить</button>
           </div>}
         </div>
       </form>

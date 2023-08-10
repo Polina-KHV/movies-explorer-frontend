@@ -10,7 +10,8 @@ function Profile({
   onUpdateUser,
   onSignout,
   submitError,
-  onSubmitError
+  onSubmitError,
+  onSuccessfulUpdate
 }) {
   return (
     <>
@@ -24,6 +25,7 @@ function Profile({
         onSignout={onSignout}
         submitError={submitError}
         onSubmitError={onSubmitError}
+        onSuccessfulUpdate={onSuccessfulUpdate}
       />
       <SideNav
       isOpen={isSideNavOpen}
