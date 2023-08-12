@@ -1,4 +1,4 @@
-export const BASE_URL = 'https://api.daechwita.nomoredomains.rocks';
+import { BASE_URL } from "../constants/config";
 
 function makeRequest(url, method, body) {
   const headers = {

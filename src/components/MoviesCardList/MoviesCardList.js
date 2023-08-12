@@ -1,5 +1,15 @@
 import { useState, useLayoutEffect, useEffect } from 'react';
 import './MoviesCardList.css';
+import {
+  LARGE_SCREEN_BREAKPOINT,
+  MEDIUM_SCREEN_BREAKPOINT,
+  LARGE_SCREEN_INITIAL_MOVIES_AMOUNT,
+  MEDIUM_SCREEN_INITIAL_MOVIES_AMOUNT,
+  SMALL_SCREEN_INITIAL_MOVIES_AMOUNT,
+  LARGE_SCREEN_ADDITION_MOVIES_AMOUNT,
+  MEDIUM_SCREEN_ADDITION_MOVIES_AMOUNT,
+  SMALL_SCREEN_ADDITION_MOVIES_AMOUNT
+} from '../../constants/config';
 import MoviesCard from '../MoviesCard/MoviesCard';
 
 function MoviesCardList({
@@ -29,12 +39,21 @@ function MoviesCardList({
     if(onSavedMoviesPage) {
       setInitialNumber(movies.length)
     } else {
-      if(width > 1280) {
-        setInitialNumber(12+(3*additionNumber));
-      } else if(width > 760) {
-        setInitialNumber(8+(2*additionNumber));
+      if(width > LARGE_SCREEN_BREAKPOINT) {
+        setInitialNumber(
+          LARGE_SCREEN_INITIAL_MOVIES_AMOUNT+(
+            LARGE_SCREEN_ADDITION_MOVIES_AMOUNT*additionNumber
+        ));
+      } else if(width > MEDIUM_SCREEN_BREAKPOINT) {
+        setInitialNumber(
+          MEDIUM_SCREEN_INITIAL_MOVIES_AMOUNT+(
+            MEDIUM_SCREEN_ADDITION_MOVIES_AMOUNT*additionNumber
+          ));
       } else {
-        setInitialNumber(5+(2*additionNumber));
+        setInitialNumber(
+          SMALL_SCREEN_INITIAL_MOVIES_AMOUNT+(
+            SMALL_SCREEN_ADDITION_MOVIES_AMOUNT*additionNumber
+          ));
       }
     }
     // eslint-disable-next-line

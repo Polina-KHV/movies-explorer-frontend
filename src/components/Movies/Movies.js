@@ -18,7 +18,6 @@ function Movies({
   onMovieApiError,
   onLikeButtonClick
 }) {
-
   return (
     <>
       <Header>

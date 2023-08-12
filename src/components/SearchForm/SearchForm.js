@@ -14,6 +14,11 @@ function SearchForm({
     if(!onSavedMoviesPage && localStorage.getItem('searchData')) {
       setSearch(JSON.parse(localStorage.getItem('searchData')).search);
       setIsShort(JSON.parse(localStorage.getItem('searchData')).isShort);
+    } 
+    else if(onSavedMoviesPage && localStorage.getItem('searchSavedData')) {
+      setSearch(JSON.parse(localStorage.getItem('searchSavedData')).search);
+      setIsShort(JSON.parse(localStorage.getItem('searchSavedData')).isShort);
+      localStorage.removeItem('searchSavedData');
     }
         // eslint-disable-next-line
   }, []);
@@ -25,13 +30,18 @@ function SearchForm({
 
   function handleShortMovieFilter(evt) {
     if(!onSavedMoviesPage && !search) {
+      setIsInvalid(true);
       return
     } else if(!onSavedMoviesPage && search) {
-      onFormSubmit(search, !isShort);
+      onFormSubmit(search, evt.target.checked);
       setIsShort(evt.target.checked);
-    } else if(onSavedMoviesPage && !search && savedMovies) {
-      setIsShort(evt.target.checked);
+    } else if(onSavedMoviesPage && !search && savedMovies.length > 0) {
       setIsInvalid(false);
+      onFormSubmit(search, evt.target.checked);
+      setIsShort(evt.target.checked);
+    } else if(onSavedMoviesPage && search && savedMovies.length > 0) {
+      onFormSubmit(search, evt.target.checked);
+      setIsShort(evt.target.checked);
     } else {
       setIsShort(evt.target.checked);
     }
@@ -40,6 +50,10 @@ function SearchForm({
   function handleSubmit(evt) {
     evt.preventDefault();
     onFormSubmit(search, isShort);
+    if(onSavedMoviesPage && localStorage.getItem('searchSavedData')) {
+      setSearch('');
+      setIsShort(false);
+    }
   };
 
   function setCustomValidation(evt) {

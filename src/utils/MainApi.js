@@ -1,3 +1,5 @@
+import { BASE_URL } from "../constants/config";
+
 class MainApi {
   constructor({baseUrl, headers}) {
     this._baseUrl = baseUrl;
@@ -69,7 +71,7 @@ class MainApi {
 }
 
 export const mainApi = new MainApi({
-  baseUrl: 'https://api.daechwita.nomoredomains.rocks',
+  baseUrl: BASE_URL,
   headers: {
     'Content-Type': 'application/json'
   }

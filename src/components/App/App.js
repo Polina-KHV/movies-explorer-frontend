@@ -5,6 +5,7 @@ import './App.css';
 import { register, authorize, getContent, logout } from '../../utils/Auth';
 import { mainApi } from '../../utils/MainApi';
 import { moviesApi } from '../../utils/MoviesApi.js';
+import { SHORT_MOVIES_LENGTH } from '../../constants/config';
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 import MainPage from '../MainPage/MainPage.js';
 import Login from '../Login/Login.js';
@@ -71,6 +72,7 @@ function App() {
     if(onSuccessfulUpdate) {
       setOnSuccessfulUpdate(false);
     }
+    setSavedSearchedMovies(savedMovies);
     // eslint-disable-next-line
   }, [navigate]);
 
@@ -120,9 +122,6 @@ function App() {
   };
   
   function handleUpdateUser(user) {
-    if(user.name === currentUser.name && user.email === currentUser.email) {
-      
-    }
     mainApi.setUserInfo(user)
     .then((user) => {
       setOnSuccessfulUpdate(true);
@@ -159,38 +158,42 @@ function App() {
     });
   };
 
+  function getSavedMovies() {
+    mainApi.getMovies()
+    .then((movies) => {
+      movies.length === 0 ?
+      setIsNoSavedMovies(true) :
+      setIsNoSavedMovies(false);
+      setSavedMovies(
+        movies.map((movie) => ({
+          nameRU: movie.nameRU,
+          nameEN: movie.nameEN,
+          country: movie.country,
+          director: movie.director,
+          duration: movie.duration,
+          year: movie.year,
+          description: movie.description,
+          image: movie.image,
+          trailerLink: movie.trailerLink,
+          thumbnail: movie.thumbnail,
+          movieId: movie.movieId,
+          owner: movie.owner,
+          _id: movie._id            
+        }))
+      );
+    })
+    .catch((err) => {
+      console.log(err);
+    })
+    .finally(() => {
+      setMoviesLoading(false);
+    })
+  }
+
   useEffect(() => {
     setMoviesLoading(true);
     if (loggedIn){
-      mainApi.getMovies()
-      .then((movies) => {
-        movies.length === 0 ?
-        setIsNoSavedMovies(true) :
-        setIsNoSavedMovies(false);
-        setSavedMovies(
-          movies.map((movie) => ({
-            nameRU: movie.nameRU,
-            nameEN: movie.nameEN,
-            country: movie.country,
-            director: movie.director,
-            duration: movie.duration,
-            year: movie.year,
-            description: movie.description,
-            image: movie.image,
-            trailerLink: movie.trailerLink,
-            thumbnail: movie.thumbnail,
-            movieId: movie.movieId,
-            owner: movie.owner,
-            _id: movie._id            
-          }))
-        );
-      })
-      .catch((err) => {
-        console.log(err);
-      })
-      .finally(() => {
-        setMoviesLoading(false);
-      })
+      getSavedMovies();
     }
     // eslint-disable-next-line
   }, [currentUser]);
@@ -239,13 +242,13 @@ function App() {
   function handleSearch(search, isShort, movies, saved) {
     if(saved && !search) {
       return movies.filter((movie) => {
-        return isShort ? movie.duration <= 40 : movie.duration !== undefined
+        return isShort ? movie.duration <= SHORT_MOVIES_LENGTH : movie.duration !== undefined
       })
     } else {
       return movies.filter((movie) => {
         return (movie.nameRU.toLowerCase().includes(search.toLowerCase()) ||
         movie.nameEN.toLowerCase().includes(search.toLowerCase())) &&
-        (isShort ? movie.duration <= 40 : movie.duration !== undefined)
+        (isShort ? movie.duration <= SHORT_MOVIES_LENGTH : movie.duration !== undefined)
       })
     }
   };
@@ -260,6 +263,10 @@ function App() {
       setIsSavedMovieListEmpty(false)
     }
     setSavedSearchedMovies(searchMovies);
+    localStorage.setItem('searchSavedData', JSON.stringify({
+      search,
+      isShort
+    }));
     setMoviesLoading(false);
   };
 
@@ -301,37 +308,59 @@ function App() {
   };
 
   function saveMovie(movie) {
+    setMoviesLoading(true);
     mainApi.addMovie(movie)
     .then((savedMovie) => {
-      console.log(savedMovie);
-      setSavedMovies.push([savedMovie, ...savedMovies])
-      setMovies((state) =>
-        state.map((i) => 
-          i.movieId === savedMovie.movieId ? savedMovie : i
-      ))
+      movie.owner = currentUser;
+      movie._id = savedMovie._id;
+      setSavedMovies([savedMovie, ...savedMovies]);
     })
     .catch((err) => {
       console.log(`Ошибка: ${err.status}`);
     })
+    .finally(() => {
+      getSavedMovies();
+      setMoviesLoading(false);
+    })
   };
 
   function deleteMovie(movie) {
+    setMoviesLoading(true);
     mainApi.removeMovie(movie._id)
     .then((removedMovie) => {
-      console.log(removedMovie);
-      delete removedMovie.owner;
-      delete removedMovie._id;
+      delete movie.owner;
+      delete movie._id;
       setSavedMovies((state) =>
         state.filter((i) =>
           i._id !== removedMovie._id
       ));
-      setMovies((state) =>
-        state.map((i) =>
-          i.movieId === removedMovie.movieId ? removedMovie : i
-      ))
     })
     .catch((err) => {
       console.log(`Ошибка: ${err}`);
+    })
+    .finally(() => {
+      setMovies(movies);
+      setMoviesLoading(false);
+    })
+  };
+
+  function deleteSavedMovie(movie) {
+    setMoviesLoading(true);
+    mainApi.removeMovie(movie._id)
+    .then((removedMovie) => {
+      setSavedSearchedMovies((state) =>
+        state.filter((i) =>
+          i._id !== removedMovie._id
+      ));
+      delete movie.owner;
+      delete movie._id;
+    })
+    .catch((err) => {
+      console.log(`Ошибка: ${err}`);
+    })
+    .finally(() => {
+      handlePreviousSearch();
+      setMoviesLoading(false);
     })
   };
 
@@ -374,7 +403,7 @@ function App() {
         onSavedMoviesListContent={isSavedMovieListEmpty}
         onMoviesLoading={moviesLoading}
         onDeleteButtonClick={
-          function(movie) {deleteMovie(movie)}
+          function(movie) {deleteSavedMovie(movie)}
         }
       />
     )
