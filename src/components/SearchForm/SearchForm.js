@@ -38,7 +38,7 @@ function SearchForm({
     } else if(onSavedMoviesPage && !search && savedMovies.length > 0) {
       setIsInvalid(false);
       onFormSubmit(search, evt.target.checked);
-      setIsShort(evt.target.checked);
+      setIsShort(!isShort);
     } else if(onSavedMoviesPage && search && savedMovies.length > 0) {
       onFormSubmit(search, evt.target.checked);
       setIsShort(evt.target.checked);

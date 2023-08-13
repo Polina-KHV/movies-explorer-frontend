@@ -22,13 +22,15 @@ function App() {
   const [currentUser, setCurrentUser] = useState({});
   const [movies, setMovies] = useState([]);
   const [moviesData, setMoviesData] = useState([]);
+  const [onMoviesData, setOnMoviesData] = useState(false);
   const [savedMovies, setSavedMovies] = useState([]);
+  const [onSavedMovies, setOnSavedMovies] = useState(false);
   const [savedSearchedMovies, setSavedSearchedMovies] = useState([]);
   const [isSideNavOpen, setIsSideNavOpen] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [moviesLoading, setMoviesLoading] = useState(false);
+  const [moviesLoading, setMoviesLoading] = useState(true);
   const [isSearched, setIsSearched] = useState(false);
-  const [isMovieListEmpty, setIsMovieListEmpty] = useState(true);
+  const [isMovieListEmpty, setIsMovieListEmpty] = useState(false);
   const [isSavedMovieListEmpty, setIsSavedMovieListEmpty] = useState(false);
   const [isNoSavedMovies, setIsNoSavedMovies] = useState(true);
   const [movieApiError, setMovieApiError] = useState(false);
@@ -72,7 +74,11 @@ function App() {
     if(onSuccessfulUpdate) {
       setOnSuccessfulUpdate(false);
     }
-    setSavedSearchedMovies(savedMovies);
+    if(loggedIn && localStorage.getItem('savedMovies')) {
+      setMoviesData(JSON.parse(localStorage.getItem('moviesData')));
+      handleSearchSavedMovies();
+      updateMoviesSearch();
+    }    
     // eslint-disable-next-line
   }, [navigate]);
 
@@ -147,8 +153,7 @@ function App() {
   function handleExit() {
     logout()
     .then(() => {
-      localStorage.removeItem('authorised');
-      localStorage.removeItem('searchData');
+      localStorage.clear();
       setMovies([]);
       setLoggedIn(false);
       navigate("/", {replace: true})
@@ -158,49 +163,50 @@ function App() {
     });
   };
 
-  function getSavedMovies() {
-    mainApi.getMovies()
-    .then((movies) => {
-      movies.length === 0 ?
-      setIsNoSavedMovies(true) :
-      setIsNoSavedMovies(false);
-      setSavedMovies(
-        movies.map((movie) => ({
-          nameRU: movie.nameRU,
-          nameEN: movie.nameEN,
-          country: movie.country,
-          director: movie.director,
-          duration: movie.duration,
-          year: movie.year,
-          description: movie.description,
-          image: movie.image,
-          trailerLink: movie.trailerLink,
-          thumbnail: movie.thumbnail,
-          movieId: movie.movieId,
-          owner: movie.owner,
-          _id: movie._id            
-        }))
-      );
-    })
-    .catch((err) => {
-      console.log(err);
-    })
-    .finally(() => {
-      setMoviesLoading(false);
-    })
-  }
-
   useEffect(() => {
-    setMoviesLoading(true);
     if (loggedIn){
-      getSavedMovies();
+      mainApi.getMovies()
+      .then((movies) => {
+        movies.length === 0 ?
+        setIsNoSavedMovies(true) :
+        setIsNoSavedMovies(false);
+        setSavedMovies(
+          movies.map((movie) => ({
+            nameRU: movie.nameRU,
+            nameEN: movie.nameEN,
+            country: movie.country,
+            director: movie.director,
+            duration: movie.duration,
+            year: movie.year,
+            description: movie.description,
+            image: movie.image,
+            trailerLink: movie.trailerLink,
+            thumbnail: movie.thumbnail,
+            movieId: movie.movieId,
+            owner: movie.owner._id,
+            _id: movie._id            
+          }))
+        );
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+      .finally(() => {
+        setOnSavedMovies(true);
+      })
     }
     // eslint-disable-next-line
-  }, [currentUser]);
+  }, [loggedIn]);
+
+  useEffect(() => {
+    localStorage.setItem('savedMovies', JSON.stringify(savedMovies));
+    setSavedSearchedMovies(savedMovies);
+    setMoviesLoading(false);
+    // eslint-disable-next-line
+  }, [onSavedMovies]);
 
   useEffect(() => {
     if (loggedIn){
-      setMoviesLoading(true);
       moviesApi.getMovies()
       .then((movies) => {
         setMoviesData(
@@ -223,144 +229,189 @@ function App() {
         console.log(`Ошибка: ${err.status}`);
         setMovieApiError(true);
       })
-      .finally(() => setMoviesLoading(false))
+      .finally(() => {
+        setOnMoviesData(true);
+      })
     }
   }, [loggedIn]);
-  
-  useEffect(() => {
-    setSavedSearchedMovies(savedMovies)
-    // eslint-disable-next-line
-  }, [savedMovies]);
 
   useEffect(() => {
+    moviesData.forEach(movie => {
+      const savedMovie = savedMovies.find(i => i.movieId === movie.movieId);
+      if(savedMovie) {
+        movie.isLiked = true;
+        movie._id = savedMovie._id
+      } else {
+        movie.isLiked = false;
+      }
+    });
     if(localStorage.getItem('searchData')) {
       handlePreviousSearch();
-    }
+      setIsSearched(true);
+    };
+    localStorage.setItem('moviesData', JSON.stringify(moviesData));
+    setMoviesLoading(false);
     // eslint-disable-next-line
-  }, [moviesData]);
+  }, [onMoviesData]);
+
+  function handleShortMovie(isShort, movie) {
+    return isShort ?
+    movie.duration <= SHORT_MOVIES_LENGTH :
+    movie.duration !== undefined
+  };
 
   function handleSearch(search, isShort, movies, saved) {
     if(saved && !search) {
-      return movies.filter((movie) => {
-        return isShort ? movie.duration <= SHORT_MOVIES_LENGTH : movie.duration !== undefined
-      })
+      return movies.filter((movie) => handleShortMovie(isShort, movie))
     } else {
       return movies.filter((movie) => {
         return (movie.nameRU.toLowerCase().includes(search.toLowerCase()) ||
         movie.nameEN.toLowerCase().includes(search.toLowerCase())) &&
-        (isShort ? movie.duration <= SHORT_MOVIES_LENGTH : movie.duration !== undefined)
+        handleShortMovie(isShort, movie)
       })
     }
   };
 
   function handleSearchSavedMovies(search, isShort) {
-    setMoviesLoading(true);
-    const saved = true;
-    const searchMovies = handleSearch(search, isShort, savedMovies, saved);
-    if(searchMovies.length === 0) {
-      setIsSavedMovieListEmpty(true)
+    if(!search && !isShort) {
+      const newSavedMovies = JSON.parse(localStorage.getItem('savedMovies'));
+      if(newSavedMovies.length !== 0) {
+        setIsNoSavedMovies(false);
+        setSavedMovies(newSavedMovies);
+        setSavedSearchedMovies(newSavedMovies);
+      } else {
+        setIsNoSavedMovies(true);
+      }
     } else {
-      setIsSavedMovieListEmpty(false)
+      const saved = true;
+      const searchMovies = handleSearch(search, isShort, savedMovies, saved);
+      if(searchMovies.length === 0) {
+        setIsSavedMovieListEmpty(true)
+      } else {
+        setIsSavedMovieListEmpty(false)
+      }
+      setSavedSearchedMovies(searchMovies);
     }
-    setSavedSearchedMovies(searchMovies);
     localStorage.setItem('searchSavedData', JSON.stringify({
       search,
-      isShort
+      isShort,
     }));
-    setMoviesLoading(false);
   };
 
   function handleSearchMovies(search, isShort) {
-    setMoviesLoading(true);
-    let searchMovies = handleSearch(search, isShort, moviesData);
+    const currentMoviesData = JSON.parse(localStorage.getItem('moviesData'));
+    const searchMovies = handleSearch(search, isShort, currentMoviesData);
     if(searchMovies.length === 0) {
       setIsMovieListEmpty(true)
     } else {
       setIsMovieListEmpty(false)
     }
-    searchMovies.forEach(movie => {
-      const savedMovie = savedMovies.find(i => i.movieId === movie.movieId);
-      if(savedMovie) {
-        movie.owner = savedMovie.owner;
-        movie._id = savedMovie._id;
-      }
-    })
     setMovies(searchMovies);
-    setIsSearched(true);
-    setMoviesLoading(false);
+    if(!isSearched){setIsSearched(true)};
     localStorage.setItem('searchData', JSON.stringify({
       search,
       isShort,
-      movies: searchMovies
     }));
   };
 
-  function handlePreviousSearch() {
-    setMoviesLoading(true);
+  function updateMoviesSearch() {
+    if(!localStorage.getItem('searchData')) {
+      return
+    }
+    const currentMoviesData = JSON.parse(localStorage.getItem('moviesData'));
     const searchData = JSON.parse(localStorage.getItem('searchData'));
-    setMovies(searchData.movies);
-    handleSearchMovies(searchData.search, searchData.isShort);
-    setMoviesLoading(false);
+    const searchMovies = handleSearch(searchData.search, searchData.isShort, currentMoviesData);
+    if(searchMovies.length === 0) {
+      setIsMovieListEmpty(true)
+    } else {
+      setIsMovieListEmpty(false)
+    };
+    setMovies(searchMovies);
+  }
+
+  function handlePreviousSearch() {
+    const searchData = JSON.parse(localStorage.getItem('searchData'));
+    const searchMovies = handleSearch(searchData.search, searchData.isShort, moviesData);
+    if(searchMovies.length === 0) {
+      setIsMovieListEmpty(true)
+    } else {
+      setIsMovieListEmpty(false)
+    };
+    setMovies(searchMovies);
   };
 
   function handleLikeButtonClick(movie) {
-    movie.owner !== undefined ? deleteMovie(movie) : saveMovie(movie) 
+    movie.isLiked ? deleteMovie(movie) : saveMovie(movie) 
   };
 
   function saveMovie(movie) {
-    setMoviesLoading(true);
     mainApi.addMovie(movie)
     .then((savedMovie) => {
-      movie.owner = currentUser;
-      movie._id = savedMovie._id;
-      setSavedMovies([savedMovie, ...savedMovies]);
+      movie.isLiked = true;
+      savedMovie.owner = savedMovie.owner._id;
+      const oldSavedMovies = JSON.parse(localStorage.getItem('savedMovies'));
+      const newSavedMovies = [savedMovie, ...oldSavedMovies];
+      localStorage.setItem('savedMovies', JSON.stringify(newSavedMovies));
+      const newMoviesData = JSON.parse(localStorage.getItem('moviesData'))
+      .map((m) => m.movieId === savedMovie.movieId ? movie : m);
+      localStorage.setItem('moviesData', JSON.stringify(newMoviesData));
     })
     .catch((err) => {
       console.log(`Ошибка: ${err.status}`);
     })
-    .finally(() => {
-      getSavedMovies();
-      setMoviesLoading(false);
-    })
   };
 
   function deleteMovie(movie) {
-    setMoviesLoading(true);
     mainApi.removeMovie(movie._id)
     .then((removedMovie) => {
-      delete movie.owner;
+      movie.isLiked = false;
       delete movie._id;
-      setSavedMovies((state) =>
-        state.filter((i) =>
-          i._id !== removedMovie._id
-      ));
+      const newSavedMovies = JSON.parse(localStorage.getItem('savedMovies'))
+      .filter((m) => m._id !== removedMovie._id);
+      localStorage.setItem('savedMovies', JSON.stringify(newSavedMovies));
+      const newMoviesData = JSON.parse(localStorage.getItem('moviesData'))
+      .map((m) => m.movieId === removedMovie.movieId ? movie : m);
+      localStorage.setItem('moviesData', JSON.stringify(newMoviesData));
+      if(newSavedMovies.length === 0) {
+        setIsNoSavedMovies(true)
+      } else {
+        setIsNoSavedMovies(false)
+      }
     })
     .catch((err) => {
       console.log(`Ошибка: ${err}`);
-    })
-    .finally(() => {
-      setMovies(movies);
-      setMoviesLoading(false);
     })
   };
 
   function deleteSavedMovie(movie) {
-    setMoviesLoading(true);
     mainApi.removeMovie(movie._id)
     .then((removedMovie) => {
+      setSavedMovies((state) =>
+        state.filter((i) =>
+          i._id !== removedMovie._id
+      ));
+      const newSavedMovies = JSON.parse(localStorage.getItem('savedMovies'))
+      .filter((m) => m._id !== removedMovie._id);
+      localStorage.setItem('savedMovies', JSON.stringify(newSavedMovies));
       setSavedSearchedMovies((state) =>
         state.filter((i) =>
           i._id !== removedMovie._id
       ));
-      delete movie.owner;
-      delete movie._id;
+      const newMovieInData = JSON.parse(localStorage.getItem('moviesData'))
+      .find((m) => m.movieId === removedMovie.movieId);
+      newMovieInData.isLiked = false;
+      delete newMovieInData._id;
+      const newMoviesData = JSON.parse(localStorage.getItem('moviesData'))
+      .map((m) => m.movieId === removedMovie.movieId ? newMovieInData : m);
+      localStorage.setItem('moviesData', JSON.stringify(newMoviesData));
+      if(newSavedMovies.length === 0) {
+        setIsNoSavedMovies(true)
+      } else {
+        setIsNoSavedMovies(false)
+      }
     })
     .catch((err) => {
       console.log(`Ошибка: ${err}`);
-    })
-    .finally(() => {
-      handlePreviousSearch();
-      setMoviesLoading(false);
     })
   };
 

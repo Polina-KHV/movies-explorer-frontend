@@ -77,80 +77,78 @@ function ProfileForm({
   };
 
   return(
-    <>
-      <form
-        className='profile-form form'
-        name='profile'
-        onSubmit={handleSubmit}
-      >
-        <div>
-          <h3 className='profile-form__title title_type_form'>Привет, {userData.name}!</h3>
-          <label className='profile-form__input-label'>Имя
+    <form
+      className='profile-form form'
+      name='profile'
+      onSubmit={handleSubmit}
+    >
+      <div>
+        <h3 className='profile-form__title title_type_form'>Привет, {userData.name}!</h3>
+        <label className='profile-form__input-label'>Имя
+        <input
+          type='text'
+          className='profile-form__input'
+          name='name'
+          id='name-input'
+          required
+          defaultValue={userData.name}
+          disabled={!onEdit}
+          onChange={handleFormChange}
+        />
+        {!isValid &&
+        <span className='profile-form__input-error input-error'>
+          {errors.name}
+        </span>}
+        </label>
+        <label className='profile-form__input-label'>E-mail
           <input
-            type='text'
+            type='email'
             className='profile-form__input'
-            name='name'
-            id='name-input'
+            name='email'
+            id='email-input'
             required
-            defaultValue={userData.name}
+            autoComplete='email'
+            defaultValue={userData.email}
             disabled={!onEdit}
             onChange={handleFormChange}
           />
           {!isValid &&
           <span className='profile-form__input-error input-error'>
-            {errors.name}
+          {errors.email}
           </span>}
-          </label>
-          <label className='profile-form__input-label'>E-mail
-            <input
-              type='email'
-              className='profile-form__input'
-              name='email'
-              id='email-input'
-              required
-              autoComplete='email'
-              defaultValue={userData.email}
-              disabled={!onEdit}
-              onChange={handleFormChange}
-            />
-            {!isValid &&
-            <span className='profile-form__input-error input-error'>
-            {errors.email}
-            </span>}
-          </label>
-        </div>
-        <div className='form__bottom'>
-          <div
-            className='profile-form__capture'
-            style={{display: onEdit ? 'none' : 'flex'}}
+        </label>
+      </div>
+      <div className='form__bottom'>
+        <div
+          className='profile-form__capture'
+          style={{display: onEdit ? 'none' : 'flex'}}
+        >
+          <span
+          className='submit-success'
+          style={{display: onSuccessfulUpdate && !onEdit ? 'block' : 'none'}}
           >
-            <span
-            className='submit-success'
-            style={{display: onSuccessfulUpdate && !onEdit ? 'block' : 'none'}}
-            >
-            Данные профиля успешно обновлены
-            </span>
-            <span className='profile-form__link link' onClick={handleFormActivation}>Редактировать</span>
-            <NavLink
-              to='/'
-              className='profile-form__link link'
-              onClick={onSignout}
-            >Выйти из аккаунта</NavLink>
-          </div>
-          {onEdit &&
-          <div>
-            <span className='submit-error'>
-            {submitError}
-            </span>
-            <button
-              type='submit'
-              className='profile-form__submit-button form__submit-button button_type_main'
-              disabled={!isValid}
-            >Сохранить</button>
-          </div>}
+          Данные профиля успешно обновлены
+          </span>
+          <span className='profile-form__link link' onClick={handleFormActivation}>Редактировать</span>
+          <NavLink
+            to='/'
+            className='profile-form__link link'
+            onClick={onSignout}
+          >Выйти из аккаунта</NavLink>
         </div>
-      </form>
-    </>
+        {onEdit &&
+        <div>
+          <span className='submit-error'>
+          {submitError}
+          </span>
+          <button
+            type='submit'
+            className='profile-form__submit-button form__submit-button button_type_main'
+            disabled={!isValid}
+          >Сохранить</button>
+        </div>}
+      </div>
+    </form>
   )
 }
 

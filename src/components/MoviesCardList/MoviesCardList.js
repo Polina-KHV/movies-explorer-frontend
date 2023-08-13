@@ -11,6 +11,8 @@ import {
   SMALL_SCREEN_ADDITION_MOVIES_AMOUNT
 } from '../../constants/config';
 import MoviesCard from '../MoviesCard/MoviesCard';
+import Preloader from '../Preloader/Preloader.js';
+
 
 function MoviesCardList({
   movies,
@@ -19,7 +21,8 @@ function MoviesCardList({
   isMovieApiError,
   noSavedMovies,
   onDeleteButtonClick,
-  onLikeButtonClick
+  onLikeButtonClick,
+  onMoviesLoading
 }) {
   const [width, setWidth] = useState('');
   const [initialNumber, setInitialNumber] = useState(0);
@@ -70,6 +73,10 @@ function MoviesCardList({
       setAdditionNumber(additionNumber+1)
   }
 
+  if(onMoviesLoading) {
+    return (<Preloader type='movies' />)
+  }
+
   return(
     <section className='movies-card-list__container content-container'>
       {isMovieApiError && !onSavedMoviesPage ? 
@@ -99,7 +106,6 @@ function MoviesCardList({
             image={movie.image}
             link={movie.trailerLink}
             duration={movie.duration}
-            owner={movie.owner}
             onSavedMoviesPage={onSavedMoviesPage}
             onDeleteButtonClick={
             function(movie) {onDeleteButtonClick(movie)}

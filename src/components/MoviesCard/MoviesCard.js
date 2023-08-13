@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import './MoviesCard.css';
 
 function MoviesCard({
@@ -10,11 +11,7 @@ function MoviesCard({
   onDeleteButtonClick,
   onLikeButtonClick
 }) {
-  const isLiked = movie.owner !== undefined ? true : false;
-
-  const movieLikeButtonClassName = ( 
-    `${isLiked && 'movies-card__like-button_active'} movies-card__like-button button_type_common` 
-  );
+  const [movieIsLiked, setMovieIsLiked] = useState(movie.isLiked);
 
   function toHoursAndMinutes(time) {
     const hours = Math.floor(time / 60);
@@ -26,6 +23,12 @@ function MoviesCard({
     if(evt.target.classList.contains('button_type_common')) {
       evt.preventDefault();
     }
+  };
+
+  function handleLikeButtonClick(movie) {
+    onLikeButtonClick(movie);
+    setMovieIsLiked(!movie.isLiked)
+
   };
 
   return(
@@ -57,10 +60,10 @@ function MoviesCard({
           ></button>
           :
           <button
-          className={movieLikeButtonClassName}
+          className={`${movieIsLiked && 'movies-card__like-button_active'} movies-card__like-button button_type_common`}
           type='button'
           onClick={
-            function() {onLikeButtonClick(movie)}
+            function() {handleLikeButtonClick(movie)}
           }
           ></button>
           }

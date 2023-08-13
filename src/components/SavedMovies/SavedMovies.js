@@ -16,7 +16,6 @@ function SavedMovies({
   onMoviesLoading,
   onDeleteButtonClick
 }) {
-
   return (
     <>
       <Header>
@@ -38,6 +37,7 @@ function SavedMovies({
           onDeleteButtonClick={
             function(movie) {onDeleteButtonClick(movie)}
           }
+          onMoviesLoading={onMoviesLoading}
         />
       </main>
       <Footer

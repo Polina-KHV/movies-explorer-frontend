@@ -4,7 +4,6 @@ import SearchForm from '../SearchForm/SearchForm.js';
 import MoviesCardList from '../MoviesCardList/MoviesCardList.js';
 import Footer from '../Footer/Footer.js';
 import SideNav from '../SideNav/SideNav.js';
-import Preloader from '../Preloader/Preloader.js';
 
 function Movies({
   movies,
@@ -30,23 +29,20 @@ function Movies({
           onSavedMoviesPage={false}
           onFormSubmit={onFormSubmit}
         />
-        {!onSearch ? '' :
-        onMoviesLoading ?
-        <Preloader
-          type='movies'
-        /> :
         <MoviesCardList
           movies={movies}
           onSavedMoviesPage={false}
           isEmpty={onMoviesListContent}
+          onSearch={onSearch}
           isMovieApiError={onMovieApiError}
           onLikeButtonClick={
             function(movie) {onLikeButtonClick(movie)}
           }
-        />}
+          onMoviesLoading={onMoviesLoading}
+        />
       </main>
       <Footer
-        isSticky={onMoviesLoading || onMoviesListContent}
+        isSticky={onMoviesLoading || onMoviesListContent || !onSearch}
       />
       <SideNav
         isOpen={isSideNavOpen}
