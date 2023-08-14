@@ -283,6 +283,7 @@ function App() {
   };
 
   function handleSearchSavedMovies(search, isShort) {
+    setIsSavedMovieListEmpty(false)
     if(!search && !isShort) {
       const newSavedMovies = JSON.parse(localStorage.getItem('savedMovies'));
       if(newSavedMovies.length !== 0) {
@@ -309,10 +310,13 @@ function App() {
   };
 
   function handleSearchMovies(search, isShort) {
+    setIsSearched(true);
     let currentMoviesData;
     try {
       currentMoviesData = JSON.parse(localStorage.getItem('moviesData'));
-      if (currentMoviesData === null) {throw new Error()};
+      if (currentMoviesData === null || currentMoviesData.length === 0) {
+        throw new Error()
+      };
     } catch(err) {
       checkSavedMovies();
       localStorage.setItem('savedMovies', JSON.stringify(savedMovies));
@@ -327,7 +331,6 @@ function App() {
       }
       setMovies(searchMovies);
     };
-    if(!isSearched){setIsSearched(true)};
     localStorage.setItem('searchData', JSON.stringify({
       search,
       isShort,
@@ -407,7 +410,16 @@ function App() {
   function deleteSavedMovie(movie) {
     mainApi.removeMovie(movie._id)
     .then((removedMovie) => {
+      if(savedSearchedMovies.length === 1) {
+        setIsSavedMovieListEmpty(true)
+      } else {
+        setIsSavedMovieListEmpty(false)
+      }
       setSavedMovies((state) =>
+        state.filter((i) =>
+          i._id !== removedMovie._id
+      ));
+      setSavedSearchedMovies((state) =>
         state.filter((i) =>
           i._id !== removedMovie._id
       ));

@@ -20,7 +20,7 @@ function SearchForm({
       setIsShort(JSON.parse(localStorage.getItem('searchSavedData')).isShort);
       localStorage.removeItem('searchSavedData');
     }
-        // eslint-disable-next-line
+    // eslint-disable-next-line
   }, []);
 
   function handleInputChange(evt) {
@@ -29,17 +29,18 @@ function SearchForm({
   };
 
   function handleShortMovieFilter(evt) {
+    const allSavedMovies = localStorage.getItem('savedMovies')
     if(!onSavedMoviesPage && !search) {
       setIsInvalid(true);
       return
     } else if(!onSavedMoviesPage && search) {
       onFormSubmit(search, evt.target.checked);
       setIsShort(evt.target.checked);
-    } else if(onSavedMoviesPage && !search && savedMovies.length > 0) {
+    } else if(onSavedMoviesPage && !search && allSavedMovies.length > 0) {
       setIsInvalid(false);
       onFormSubmit(search, evt.target.checked);
       setIsShort(!isShort);
-    } else if(onSavedMoviesPage && search && savedMovies.length > 0) {
+    } else if(onSavedMoviesPage && search && allSavedMovies.length > 0) {
       onFormSubmit(search, evt.target.checked);
       setIsShort(evt.target.checked);
     } else {
