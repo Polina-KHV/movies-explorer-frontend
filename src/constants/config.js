@@ -1,4 +1,5 @@
 export const BASE_URL = 'https://api.daechwita.nomoredomains.rocks';
+// export const BASE_URL = 'http://localhost:3000';
 
 export const SHORT_MOVIES_LENGTH = 40;
 

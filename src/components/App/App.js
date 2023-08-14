@@ -74,7 +74,12 @@ function App() {
     if(onSuccessfulUpdate) {
       setOnSuccessfulUpdate(false);
     }
-    if(loggedIn && localStorage.getItem('savedMovies')) {
+    if(loggedIn) {
+      if(!localStorage.getItem('savedMovies')) {
+        localStorage.setItem('savedMovies', JSON.stringify(savedMovies));
+      } if(!localStorage.getItem('moviesData')) {
+        localStorage.setItem('moviesData', JSON.stringify(savedMovies));
+      }
       setMoviesData(JSON.parse(localStorage.getItem('moviesData')));
       handleSearchSavedMovies();
       updateMoviesSearch();
@@ -112,6 +117,7 @@ function App() {
       setLoggedIn(true);
       navigate("/movies", {replace: true});
       setSubmitError('');
+      setIsSearched(false);
     })
     .catch((err) => {
       console.log(`Ошибка: ${err.status}`);
@@ -236,6 +242,17 @@ function App() {
   }, [loggedIn]);
 
   useEffect(() => {
+    checkSavedMovies();
+    if(localStorage.getItem('searchData')) {
+      handlePreviousSearch();
+      setIsSearched(true);
+    };
+    localStorage.setItem('moviesData', JSON.stringify(moviesData));
+    setMoviesLoading(false);
+    // eslint-disable-next-line
+  }, [onMoviesData]);
+
+  function checkSavedMovies() {
     moviesData.forEach(movie => {
       const savedMovie = savedMovies.find(i => i.movieId === movie.movieId);
       if(savedMovie) {
@@ -245,14 +262,7 @@ function App() {
         movie.isLiked = false;
       }
     });
-    if(localStorage.getItem('searchData')) {
-      handlePreviousSearch();
-      setIsSearched(true);
-    };
-    localStorage.setItem('moviesData', JSON.stringify(moviesData));
-    setMoviesLoading(false);
-    // eslint-disable-next-line
-  }, [onMoviesData]);
+  }
 
   function handleShortMovie(isShort, movie) {
     return isShort ?
@@ -299,19 +309,30 @@ function App() {
   };
 
   function handleSearchMovies(search, isShort) {
-    const currentMoviesData = JSON.parse(localStorage.getItem('moviesData'));
-    const searchMovies = handleSearch(search, isShort, currentMoviesData);
-    if(searchMovies.length === 0) {
-      setIsMovieListEmpty(true)
-    } else {
-      setIsMovieListEmpty(false)
-    }
-    setMovies(searchMovies);
+    let currentMoviesData;
+    try {
+      currentMoviesData = JSON.parse(localStorage.getItem('moviesData'));
+      if (currentMoviesData === null) {throw new Error()};
+    } catch(err) {
+      checkSavedMovies();
+      localStorage.setItem('savedMovies', JSON.stringify(savedMovies));
+      localStorage.setItem('moviesData', JSON.stringify(moviesData));
+      currentMoviesData = moviesData;
+    } finally {
+      const searchMovies = handleSearch(search, isShort, currentMoviesData);
+      if(searchMovies.length === 0) {
+        setIsMovieListEmpty(true)
+      } else {
+        setIsMovieListEmpty(false)
+      }
+      setMovies(searchMovies);
+    };
     if(!isSearched){setIsSearched(true)};
     localStorage.setItem('searchData', JSON.stringify({
       search,
       isShort,
     }));
+    
   };
 
   function updateMoviesSearch() {
