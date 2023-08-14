@@ -8,3 +8,9 @@
   background-size: contain;
   background-color: transparent;
 }
+
+@media (hover: none) {
+  .movies-card__trash-button {
+    display: block
+  }
+}

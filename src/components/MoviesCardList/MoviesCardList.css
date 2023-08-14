@@ -1,5 +1,6 @@
 @import url(../../blocks/movies-card-list/__container/movies-card-list__container.css);
 @import url(../../blocks/content-container/content-container.css);
+@import url(../../blocks/movies-card-list/__error-message/movies-card-list__error-message.css);
 @import url(../../blocks/movies-card-list/movies-card-list.css);
 @import url(../../blocks/list/list.css);
 @import url(../../blocks/movies-card-list/__add-button/movies-card-list__add-button.css);

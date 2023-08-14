@@ -5,28 +5,49 @@ import MoviesCardList from '../MoviesCardList/MoviesCardList.js';
 import Footer from '../Footer/Footer.js';
 import SideNav from '../SideNav/SideNav.js';
 
-function Movies({onOpenSideNav, isSideNavOpen, onCloseSideNav, onMoviesListContent}) {
+function Movies({
+  movies,
+  onOpenSideNav,
+  onFormSubmit,
+  isSideNavOpen,
+  onCloseSideNav,
+  onMoviesListContent,
+  onMoviesLoading,
+  onSearch,
+  onMovieApiError,
+  onLikeButtonClick
+}) {
   return (
     <>
-    <Header>
-      <MainNav
-        onClick={onOpenSideNav}
+      <Header>
+        <MainNav
+          onClick={onOpenSideNav}
+        />
+      </Header>
+      <main>
+        <SearchForm
+          onSavedMoviesPage={false}
+          onFormSubmit={onFormSubmit}
+        />
+        <MoviesCardList
+          movies={movies}
+          onSavedMoviesPage={false}
+          isEmpty={onMoviesListContent}
+          onSearch={onSearch}
+          isMovieApiError={onMovieApiError}
+          onLikeButtonClick={
+            function(movie) {onLikeButtonClick(movie)}
+          }
+          onMoviesLoading={onMoviesLoading}
+        />
+      </main>
+      <Footer
+        isSticky={onMoviesLoading || onMoviesListContent || !onSearch}
       />
-    </Header>
-    <main>
-      <SearchForm />
-      <MoviesCardList
-        isSaved={false}
-        isEmpty={onMoviesListContent}
+      <SideNav
+        isOpen={isSideNavOpen}
+        onCloseSideNav={onCloseSideNav}
       />
-    </main>
-    <Footer
-      isSticky={onMoviesListContent}
-    />
-    <SideNav
-      isOpen={isSideNavOpen}
-      onCloseSideNav={onCloseSideNav}
-    />
     </>
   )
 }

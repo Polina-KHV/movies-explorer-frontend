@@ -11,3 +11,13 @@
 .button_type_main:hover {
   opacity: .8;
 }
+
+.button_type_main:disabled {
+  cursor: default;
+  color: #C2C2C2;
+  background-color: #F8F8F8;
+}
+
+.button_type_main:disabled:hover {
+  opacity: 1;
+}
