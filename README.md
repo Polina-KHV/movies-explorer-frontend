@@ -9,7 +9,7 @@ The code is developed with Create React App.
 
 ## Project links
 
-Repository https://github.com/Polina-KHV/movies-explorer-frontend
+Movies Explorer site https://daechwita.nomoredomains.rocks
 
 Figma layout https://disk.yandex.ru/d/HIv_bS45lDINkQ
 
